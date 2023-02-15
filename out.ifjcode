@@ -1,0 +1,205 @@
+.IFJcode22
+DEFVAR GF@__TMP1
+DEFVAR GF@__TMP2
+DEFVAR GF@__TMP3
+DEFVAR GF@__ARG_CNT
+JUMP __main
+LABEL write
+PUSHFRAME
+LABEL __WRITE_WHILE
+PUSHS GF@__ARG_CNT
+PUSHS int@0
+JUMPIFEQS __WRITE_WHILE_END
+POPS GF@__TMP1
+WRITE GF@__TMP1
+SUB GF@__ARG_CNT GF@__ARG_CNT int@1
+JUMP __WRITE_WHILE
+LABEL __WRITE_WHILE_END
+POPFRAME
+RETURN
+LABEL reads
+PUSHFRAME
+READ GF@__TMP1 string
+PUSHS GF@__TMP1
+POPFRAME
+RETURN
+LABEL readi
+PUSHFRAME
+READ GF@__TMP1 int
+PUSHS GF@__TMP1
+POPFRAME
+RETURN
+LABEL readf
+PUSHFRAME
+READ GF@__TMP1 float
+PUSHS GF@__TMP1
+POPFRAME
+RETURN
+LABEL substring
+PUSHFRAME
+DEFVAR LF@s
+DEFVAR LF@i
+DEFVAR LF@j
+POPS LF@s
+POPS LF@i
+POPS LF@j
+DEFVAR LF@nil_check
+EQ LF@nil_check LF@s nil@nil
+JUMPIFEQ substring_err_nil LF@nil_check bool@true
+EQ LF@nil_check LF@i nil@nil
+JUMPIFEQ substring_err_nil LF@nil_check bool@true
+EQ LF@nil_check LF@j nil@nil
+JUMPIFEQ substring_err_nil LF@nil_check bool@true
+DEFVAR LF@jlti
+LT LF@jlti LF@j LF@i
+JUMPIFEQ substring_empty LF@jlti bool@true
+SUB LF@i LF@i int@1
+DEFVAR LF@ret
+MOVE LF@ret string@
+DEFVAR LF@aux
+DEFVAR LF@jumpvar
+MOVE LF@jumpvar LF@i
+label cykleStart
+LT LF@jumpvar LF@i LF@j
+JUMPIFEQ cykleEnd LF@jumpvar bool@false
+GETCHAR LF@aux LF@s LF@i
+CONCAT LF@ret LF@ret LF@aux
+ADD LF@i LF@i int@1
+JUMP cykleStart
+label cykleEnd
+PUSHS LF@ret
+POPFRAME
+RETURN
+LABEL substring_empty
+DEFVAR LF@empty_str
+MOVE LF@empty_str string@
+PUSHS LF@empty_str
+POPFRAME
+RETURN
+LABEL substring_err_nil
+EXIT int@8
+LABEL chr
+DEFVAR TF@returned
+DEFVAR TF@param1
+PUSHFRAME
+POPS LF@param1
+DEFVAR LF@param1-type
+TYPE LF@param1-type LF@param1
+JUMPIFNEQ chr-exit LF@param1-type string@int
+INT2CHAR LF@returned LF@param1
+PUSHS LF@returned
+JUMP chr-return
+LABEL chr-exit
+EXIT int@4
+LABEL chr-return
+POPFRAME
+RETURN
+LABEL ord
+PUSHFRAME
+DEFVAR LF@returned
+DEFVAR LF@param1
+POPS LF@param1
+PUSHS LF@param1
+PUSHS string@
+JUMPIFEQS ord-empty
+DEFVAR LF@param1-type
+TYPE LF@param1-type LF@param1
+JUMPIFNEQ ord-exit LF@param1-type string@string
+STRI2INT LF@returned LF@param1 int@0
+PUSHS LF@returned
+JUMP ord-return
+LABEL ord-exit
+PUSHS int@0
+POPFRAME
+RETURN
+LABEL ord-return
+POPFRAME
+RETURN
+LABEL ord-empty
+PUSHS int@0
+POPFRAME
+RETURN
+LABEL intval
+DEFVAR TF@ret
+DEFVAR TF@param1
+PUSHFRAME
+POPS LF@param1
+DEFVAR LF@param1-type
+TYPE LF@param1-type LF@param1
+JUMPIFEQ intToint LF@param1-type string@int
+JUMPIFEQ floatToint LF@param1-type string@float
+JUMPIFEQ nilToint LF@param1-type string@nil
+LABEL intToint
+PUSHS LF@param1
+POPFRAME
+RETURN
+LABEL floatToint
+FLOAT2INT LF@ret LF@param1
+PUSHS LF@ret
+POPFRAME
+RETURN
+LABEL nilToint
+PUSHS int@0
+POPFRAME
+RETURN
+POPFRAME
+RETURN
+LABEL floatval
+DEFVAR TF@ret
+DEFVAR TF@param1
+PUSHFRAME
+POPS LF@param1
+DEFVAR LF@param1-type
+TYPE LF@param1-type LF@param1
+JUMPIFEQ intTofloat LF@param1-type string@int
+JUMPIFEQ floatTofloat LF@param1-type string@float
+JUMPIFEQ nilTofloat LF@param1-type string@nil
+LABEL intTofloat
+INT2FLOAT LF@ret LF@param1
+PUSHS LF@ret
+POPFRAME
+RETURN
+LABEL floatTofloat
+PUSHS LF@param1
+POPFRAME
+RETURN
+LABEL nilTofloat
+PUSHS float@0x0.0p+0
+POPFRAME
+RETURN
+POPFRAME
+RETURN
+LABEL strval
+PUSHFRAME
+DEFVAR LF@ret
+DEFVAR LF@param1
+POPS LF@param1
+DEFVAR LF@param1-type
+TYPE LF@param1-type LF@param1
+JUMPIFEQ stringTostr LF@param1-type string@string
+JUMPIFEQ nilTostr LF@param1-type string@nil
+LABEL nilTostr
+PUSHS string@
+POPFRAME
+RETURN
+LABEL stringTostr
+PUSHS LF@param1
+POPFRAME
+RETURN
+LABEL __main
+CREATEFRAME
+PUSHFRAME
+DEFVAR LF@a
+CREATEFRAME
+MOVE GF@__ARG_CNT int@0
+CALL intval
+POPS LF@a
+PUSHS nil@nil
+CREATEFRAME
+PUSHS string@\010
+PUSHS LF@a
+MOVE GF@__ARG_CNT int@2
+CALL write
+PUSHS LF@a
+PUSHS string@\010
+POPFRAME
